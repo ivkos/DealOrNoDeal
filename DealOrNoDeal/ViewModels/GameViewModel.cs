@@ -20,21 +20,55 @@ namespace DealOrNoDeal.ViewModels
         private readonly GameView view;
         private readonly Random random = new Random();
 
+        #region Constructor
+        public GameViewModel(GameView view)
+        {
+            this.view = view;
+
+            #region Fill boxes
+            {
+                BluePrices = BoxPrices.BluePrices
+                    .OrderBy(_ => random.Next())
+                    .Select(v => new Box(v))
+                    .OrderBy(b => b.Value)
+                    .ToList();
+
+                RedPrices = BoxPrices.RedPrices
+                    .OrderBy(_ => random.Next())
+                    .Select(v => new Box(v))
+                    .OrderBy(b => b.Value)
+                    .ToList();
+
+                AllBoxes.AddRange(BluePrices);
+                AllBoxes.AddRange(RedPrices);
+
+                // Pick a random box for the player
+                CurrentBox = AllBoxes[random.Next(AllBoxes.Count)];
+
+                // Fill grid with boxes
+                GridBoxes = new ObservableCollection<GridBox>(GridBox.Of(AllBoxes.Except(new[] { CurrentBox }).OrderBy(_ => random.Next())));
+            }
+            #endregion
+        }
+        #endregion
+
+        #region Boxes collections
         public List<Box> BluePrices { get; set; }
         public List<Box> RedPrices { get; set; }
         public List<Box> AllBoxes { get; set; } = new List<Box>();
         public ObservableCollection<GridBox> GridBoxes { get; set; }
+        #endregion
 
+        #region CurrentBox
         private Box currentBox;
-
         public Box CurrentBox
         {
             get { return currentBox; }
             set { this.currentBox = value; OnPropertyChanged(); }
         }
+        #endregion
 
-        #region Offer and offer text handling
-
+        #region Game state properties
         public double MoneyOffer { get; private set; }
 
         private int remainingBoxesToOpen = 5;
@@ -49,7 +83,6 @@ namespace DealOrNoDeal.ViewModels
         }
 
         private GameState currentGameState = GameState.KeepOpeningBoxes;
-
         public GameState CurrentGameState
         {
             get { return currentGameState; }
@@ -84,53 +117,6 @@ namespace DealOrNoDeal.ViewModels
         }
 
         public bool HasOffer => CurrentGameState != GameState.KeepOpeningBoxes && CurrentGameState != GameState.GameOver;
-
-        #endregion
-
-        #region Constructor
-
-        public GameViewModel(GameView view)
-        {
-            this.view = view;
-
-            #region Fill boxes
-
-            {
-                BluePrices = BoxPrices.BluePrices
-                    .OrderBy(_ => random.Next())
-                    .Select(v => new Box(v))
-                    .OrderBy(b => b.Value)
-                    .ToList();
-
-                RedPrices = BoxPrices.RedPrices
-                    .OrderBy(_ => random.Next())
-                    .Select(v => new Box(v))
-                    .OrderBy(b => b.Value)
-                    .ToList();
-
-                AllBoxes.AddRange(BluePrices);
-                AllBoxes.AddRange(RedPrices);
-            }
-
-            #endregion
-
-            #region Pick a random box for the player
-
-            {
-                var allBoxes = new List<Box>();
-                allBoxes.AddRange(BluePrices);
-                allBoxes.AddRange(RedPrices);
-
-                CurrentBox = allBoxes[new Random().Next(allBoxes.Count)];
-
-                GridBoxes =
-                    new ObservableCollection<GridBox>(
-                        GridBox.Of(AllBoxes.Except(new Box[] { CurrentBox }).OrderBy(_ => random.Next())));
-            }
-
-            #endregion
-        }
-
         #endregion
 
         #region Commands
@@ -151,23 +137,19 @@ namespace DealOrNoDeal.ViewModels
             }
         }
 
-
         private bool boxOpenInProgress = false;
-        private int boxesToOpenCurrently = 5;
-        public void OpenBox(object src)
+        private int boxesToOpenInRound = 5;
+
+        public void OpenBox(object element)
         {
             if (boxOpenInProgress)
                 return;
 
-            Button btn = (Button) src;
+            Button btn = (Button) element;
             Box box = ((GridBox) btn.DataContext).Box;
 
             btn.Foreground = Brushes.White;
-            if (BoxPrices.BluePrices.Any(v => v == box.Value))
-                btn.Background = Brushes.RoyalBlue;
-            else
-                btn.Background = Brushes.DarkRed;
-
+            btn.Background = BoxPrices.BluePrices.Any(v => v == box.Value) ? Brushes.RoyalBlue : Brushes.DarkRed;
             btn.FontSize = 16;
             btn.Content = box.ToString();
 
@@ -175,6 +157,7 @@ namespace DealOrNoDeal.ViewModels
             new Thread(() =>
             {
                 Thread.Sleep(500);
+
                 box.IsOpen = true;
                 boxOpenInProgress = false;
                 RemainingBoxesToOpen--;
@@ -182,28 +165,20 @@ namespace DealOrNoDeal.ViewModels
                 if (RemainingBoxesToOpen == 0)
                 {
                     MoneyOffer = Banker.GetOfferForBoxes(AllBoxes);
-
-                    if (MoneyOffer == 0d)
-                    {
-                        CurrentGameState = GameState.SwapBoxesOfferPending;
-                    }
-                    else
-                    {
-                        CurrentGameState = GameState.MoneyOfferPending;
-                    }
+                    CurrentGameState = MoneyOffer == 0d ? GameState.SwapBoxesOfferPending : GameState.MoneyOfferPending;
                 }
             }).Start();
         }
 
-        public void SwapBoxes(object src)
+        public void SwapBoxes(object element)
         {
-            Button btn = (Button) src;
+            Button btn = (Button) element;
             Box box = ((GridBox) btn.DataContext).Box;
 
             GridBoxes.FirstOrDefault(gb => gb.Box == box).Box = CurrentBox;
             CurrentBox = box;
 
-            ResetOffer();
+            ResetGameState();
 
             if (AllBoxes.Count(b => !b.IsOpen) == 2)
             {
@@ -211,19 +186,8 @@ namespace DealOrNoDeal.ViewModels
                 view.RevealAllBoxes();
             }
         }
-        #endregion
 
-        private void ResetOffer()
-        {
-            if (boxesToOpenCurrently > 2)
-                boxesToOpenCurrently--;
-
-            RemainingBoxesToOpen = boxesToOpenCurrently;
-
-            CurrentGameState = GameState.KeepOpeningBoxes;
-        }
-
-        #region Deal/No Deal Commands
+        #region Accept/Deny Offer Commands
         public ICommand AcceptOfferCommand => new DelegateCommand(AcceptOffer);
         public ICommand DenyOfferCommand => new DelegateCommand(DenyOffer);
 
@@ -238,7 +202,7 @@ namespace DealOrNoDeal.ViewModels
 
         public void DenyOffer(object _)
         {
-            ResetOffer();
+            ResetGameState();
 
             if (AllBoxes.Count(b => !b.IsOpen) == 2)
             {
@@ -248,11 +212,24 @@ namespace DealOrNoDeal.ViewModels
         }
         #endregion
 
+        private void ResetGameState()
+        {
+            if (boxesToOpenInRound > 2)
+                boxesToOpenInRound--;
+
+            RemainingBoxesToOpen = boxesToOpenInRound;
+
+            CurrentGameState = GameState.KeepOpeningBoxes;
+        }
+        #endregion
+
+        #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }
