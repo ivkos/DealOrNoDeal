@@ -8,19 +8,31 @@ namespace DealOrNoDeal.Models
 {
     public class GridBox : INotifyPropertyChanged
     {
+        #region Columns and rows
+
         private const int GridColumns = 7;
         private const int GridRows = 3;
+
+        public int Column { get; private set; }
+        public int Row { get; private set; }
+
+        #endregion
+
+        #region Box
 
         private Box box;
 
         public Box Box
         {
             get { return box; }
-            set { this.box = value; OnPropertyChanged(); }
+            set
+            {
+                box = value;
+                OnPropertyChanged();
+            }
         }
 
-        public int Column { get; private set; }
-        public int Row { get; private set; }
+        #endregion
 
         public GridBox(Box box, int column, int row)
         {
@@ -50,13 +62,15 @@ namespace DealOrNoDeal.Models
             });
         }
 
+        #region INotifyPropertyChanged Implementation
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
-
-
 }
