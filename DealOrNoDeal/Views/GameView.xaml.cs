@@ -21,9 +21,9 @@ namespace DealOrNoDeal.Views
 
         public void RevealAllBoxes()
         {
-            for (int i = 0; i < BoxesGrid.Items.Count; i++)
+            foreach (var item in BoxesGrid.Items)
             {
-                ContentPresenter c = (ContentPresenter) BoxesGrid.ItemContainerGenerator.ContainerFromItem(BoxesGrid.Items[i]);
+                ContentPresenter c = (ContentPresenter) BoxesGrid.ItemContainerGenerator.ContainerFromItem(item);
                 Button btn = c.ContentTemplate.FindName("BoxButton", c) as Button;
 
                 RevealButton(btn);
