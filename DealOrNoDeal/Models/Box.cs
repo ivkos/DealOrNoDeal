@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DealOrNoDeal.Support.Constants;
 
 namespace DealOrNoDeal.Models
 {
@@ -29,7 +30,7 @@ namespace DealOrNoDeal.Models
 
             if (value == 5d)
             {
-                ItemName = Items[new Random().Next(Items.Length)];
+                ItemName = BoxPrices.Items[new Random().Next(BoxPrices.Items.Length)];
             }
         }
 
