@@ -9,125 +9,7 @@
         Title="Сделка или не" ResizeMode="CanMinimize" Height="542.193" Width="931.096" d:DataContext="{d:DesignInstance vm:GameViewModel}">
 
     <Window.Resources>
-        <Style x:Key="LblBlueStyle" TargetType="Label">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                    <Setter Property="Margin" Value="0 0 0 0"></Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding Path=IsOpen, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                    <Setter Property="Margin" Value="-60 0 60 0"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="LblRedStyle" TargetType="Label">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
-                    <Setter Property="Margin" Value="0 0 0 0"></Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <Setter Property="Margin" Value="60 0 -60 0"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="GridBoxStyle" TargetType="Button">
-            <Setter Property="Margin" Value="2 2 2 2"></Setter>
-
-            <Setter Property="FontSize" Value="28"></Setter>
-            <Setter Property="FontFamily" Value="Verdana"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Foreground" Value="DarkBlue"></Setter>
-            <Setter Property="Background" Value="LightBlue"></Setter>
-
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Box.IsOpen}" Value="False">
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding Path=Box.IsOpen}" Value="True">
-                    <Setter Property="Visibility" Value="Hidden"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="PlayerBoxStyle" TargetType="Label">
-            <Setter Property="Width" Value="100"></Setter>
-            <Setter Property="Height" Value="60"></Setter>
-
-            <Setter Property="FontSize" Value="28"></Setter>
-            <Setter Property="FontFamily" Value="Verdana"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-            <Setter Property="Foreground" Value="DarkBlue"></Setter>
-            <Setter Property="Background" Value="LightBlue"></Setter>
-
-            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="BorderBrush" Value="#343434"></Setter>
-            <Setter Property="BorderThickness" Value="1"></Setter>
-        </Style>
-
-        <Style x:Key="OfferVisibility" TargetType="Label">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=HasOffer}" Value="False">
-                    <Setter Property="Visibility" Value="Hidden"></Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding Path=HasOffer}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="DealButtons" TargetType="Button">
-            <Setter Property="FontSize" Value="16" />
-
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=HasOffer}" Value="False">
-                    <Setter Property="Visibility" Value="Hidden"></Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding Path=HasOffer}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary Source="Support/Styles.xaml" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -139,7 +21,12 @@
         <ItemsControl ItemsSource="{Binding BluePrices}" Grid.Column="0" VerticalAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Background="RoyalBlue" Content="{Binding}" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" Style="{StaticResource LblBlueStyle}"/>
+                    <Label Content="{Binding}"
+                           Style="{StaticResource LblBlueStyle}" 
+                           Background="RoyalBlue"
+                           Foreground="White"
+                           FontSize="16"
+                           HorizontalContentAlignment="Center" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -188,19 +75,28 @@
             <Label Name="BankOffer" Content="{Binding CurrentOfferText}" IsEnabled="True" HorizontalAlignment="Center" FontSize="20" Background="#DB0000" Foreground="White" Padding="25 5 25 5" FontFamily="Segoe UI Light"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="21">
-                <Button Command="{Binding AcceptOfferCommand}" Style="{StaticResource DealButtons}" Content="СДЕЛКА" Margin="0 0 15 0" Height="36" Width="76" Background="RoyalBlue" Foreground="White"/>
-                <Button Command="{Binding DenyOfferCommand}" Style="{StaticResource DealButtons}" Content="НЕ" Height="36" Width="50" Background="DarkRed" Foreground="White"/>
+                <Button Content="СДЕЛКА" Command="{Binding AcceptOfferCommand}" 
+                        Style="{StaticResource DealButtons}"
+                        Margin="0 0 15 0" Height="36" Width="76" Background="RoyalBlue" Foreground="White"/>
+                
+                <Button Content="НЕ" Command="{Binding DenyOfferCommand}"
+                        Style="{StaticResource DealButtons}"
+                        Height="36" Width="50" Background="DarkRed" Foreground="White"/>
             </StackPanel>
-
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding RedPrices}" Grid.Column="2" VerticalAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Background="DarkRed" Content="{Binding}" Foreground="White" FontSize="16" HorizontalContentAlignment="Center" Style="{StaticResource LblRedStyle}" />
+                    <Label Content="{Binding}"
+                           Style="{StaticResource LblRedStyle}"
+                           Background="DarkRed"
+                           Foreground="White"
+                           FontSize="16" HorizontalContentAlignment="Center" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
 </Window>
+   
    

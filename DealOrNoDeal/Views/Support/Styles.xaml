@@ -1,0 +1,122 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="LblBlueStyle" TargetType="Label">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsOpen, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                <Setter Property="Margin" Value="0 0 0 0"></Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IsOpen, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                <Setter Property="Margin" Value="-60 0 60 0"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LblRedStyle" TargetType="Label">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
+                <Setter Property="Margin" Value="0 0 0 0"></Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                <Setter Property="Margin" Value="60 0 -60 0"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GridBoxStyle" TargetType="Button">
+        <Setter Property="Margin" Value="2 2 2 2"></Setter>
+
+        <Setter Property="FontSize" Value="28"></Setter>
+        <Setter Property="FontFamily" Value="Verdana"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Foreground" Value="DarkBlue"></Setter>
+        <Setter Property="Background" Value="LightBlue"></Setter>
+
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Box.IsOpen}" Value="False">
+                <Setter Property="Visibility" Value="Visible"></Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Box.IsOpen}" Value="True">
+                <Setter Property="Visibility" Value="Hidden"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PlayerBoxStyle" TargetType="Label">
+        <Setter Property="Width" Value="100"></Setter>
+        <Setter Property="Height" Value="60"></Setter>
+
+        <Setter Property="FontSize" Value="28"></Setter>
+        <Setter Property="FontFamily" Value="Verdana"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Foreground" Value="DarkBlue"></Setter>
+        <Setter Property="Background" Value="LightBlue"></Setter>
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="BorderBrush" Value="#343434"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+
+    <Style x:Key="OfferVisibility" TargetType="Label">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=HasOffer}" Value="False">
+                <Setter Property="Visibility" Value="Hidden"></Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=HasOffer}" Value="True">
+                <Setter Property="Visibility" Value="Visible"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DealButtons" TargetType="Button">
+        <Setter Property="FontSize" Value="16" />
+
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=HasOffer}" Value="False">
+                <Setter Property="Visibility" Value="Hidden"></Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=HasOffer}" Value="True">
+                <Setter Property="Visibility" Value="Visible"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
