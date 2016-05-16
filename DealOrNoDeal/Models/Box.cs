@@ -7,9 +7,10 @@ namespace DealOrNoDeal.Models
 {
     public class Box : INotifyPropertyChanged
     {
-        private static int IdCounter = 0;
+        private static int idCounter = 0;
 
-        public int Id { get; private set; } = ++IdCounter;
+        #region Properties
+        public int Id { get; private set; } = ++idCounter;
         public double Value { get; }
         public string ItemName { get; }
 
@@ -23,6 +24,7 @@ namespace DealOrNoDeal.Models
                 OnPropertyChanged();
             }
         }
+        #endregion
 
         public Box(double value)
         {
@@ -34,18 +36,13 @@ namespace DealOrNoDeal.Models
             }
         }
 
-        public Box(string itemName)
-        {
-            Value = 5;
-            ItemName = itemName;
-        }
-
         public override string ToString()
         {
             string format = Value < 1 ? "0.00" : "";
             return ItemName ?? Value.ToString(format);
         }
 
+        #region Equals & GetHashCode
         protected bool Equals(Box other)
         {
             return Value.Equals(other.Value);
@@ -66,12 +63,15 @@ namespace DealOrNoDeal.Models
         {
             return Value.GetHashCode();
         }
+        #endregion
 
+        #region INotifyPropertcyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }
