@@ -8,11 +8,6 @@ namespace DealOrNoDeal.Models
     {
         private static int IdCounter = 0;
 
-        private static readonly string[] Items =
-        {
-            "Шапка", "Топка", "Чаша", "Очила", "Черпак"
-        };
-
         public int Id { get; private set; } = ++IdCounter;
         public double Value { get; }
         public string ItemName { get; }
