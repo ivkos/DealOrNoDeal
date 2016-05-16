@@ -25,14 +25,14 @@ namespace DealOrNoDeal.Views
             {
                 ContentPresenter c = (ContentPresenter) BoxesGrid.ItemContainerGenerator.ContainerFromItem(BoxesGrid.Items[i]);
                 Button btn = c.ContentTemplate.FindName("BoxButton", c) as Button;
-                
+
                 RevealButton(btn);
             }
 
             RevealPlayerBox(PlayerBox);
         }
 
-        public void RevealButton(Button btn)
+        private static void RevealButton(Button btn)
         {
             Box box = ((GridBox) btn.DataContext).Box;
 
@@ -47,7 +47,7 @@ namespace DealOrNoDeal.Views
             btn.Content = box.ToString();
         }
 
-        public void RevealPlayerBox(Label label)
+        private static void RevealPlayerBox(Label label)
         {
             Box box = ((GameViewModel) label.DataContext).CurrentBox;
 
