@@ -248,11 +248,6 @@ namespace DealOrNoDeal.ViewModels
         }
         #endregion
 
-        public enum GameState
-        {
-            KeepOpeningBoxes, SwapBoxesOfferPending, MoneyOfferPending, GameOver
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
