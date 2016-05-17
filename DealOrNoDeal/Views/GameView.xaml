@@ -11,6 +11,7 @@
     <Window.Resources>
         <ResourceDictionary Source="Support/Styles.xaml" />
     </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="75"/>
@@ -74,6 +75,7 @@
             </controls:GridItemsControl>
 
             <Label Content="Вашата кутия:" HorizontalAlignment="Center" FontSize="14" FontFamily="Segoe UI Light" />
+
             <Label x:Name="PlayerBox" Style="{StaticResource PlayerBoxStyle}">
                 <Label.Content>
                     <MultiBinding Converter="{StaticResource BoxToContentConverter}">
