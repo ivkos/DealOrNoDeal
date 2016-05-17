@@ -2,6 +2,10 @@
 {
     public enum GameState
     {
-        KeepOpeningBoxes, SwapBoxesOfferPending, MoneyOfferPending, GameOver
+        KeepOpeningBoxes,
+        MoneyOfferPending,
+        SwapBoxesOfferPending,
+        SwapBoxesOfferAccepted,
+        GameOver,
     }
 }

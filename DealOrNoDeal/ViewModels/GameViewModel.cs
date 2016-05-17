@@ -106,6 +106,8 @@ namespace DealOrNoDeal.ViewModels
                         return $"{RemainingBoxesToOpen} кути{(RemainingBoxesToOpen == 1 ? 'я' : 'и')}";
                     case GameState.SwapBoxesOfferPending:
                         return "смяна на кутиите";
+                    case GameState.SwapBoxesOfferAccepted:
+                        return "изберете нова кутия";
                     case GameState.GameOver:
                         return $"Спечелихте {(MoneyOffer > 0 ? MoneyOffer + " лв." : CurrentBox.ItemName ?? CurrentBox + " лв.")}!";
                     default:
@@ -114,7 +116,7 @@ namespace DealOrNoDeal.ViewModels
             }
         }
 
-        public bool HasOffer => CurrentGameState != GameState.KeepOpeningBoxes && CurrentGameState != GameState.GameOver;
+        public bool HasOffer => CurrentGameState == GameState.MoneyOfferPending || CurrentGameState == GameState.SwapBoxesOfferPending;
         #endregion
 
         #region Commands
@@ -127,7 +129,7 @@ namespace DealOrNoDeal.ViewModels
                 {
                     case GameState.KeepOpeningBoxes:
                         return new DelegateCommand(OpenBox);
-                    case GameState.SwapBoxesOfferPending:
+                    case GameState.SwapBoxesOfferAccepted:
                         return new DelegateCommand(SwapBoxes);
                     default:
                         return new DelegateCommand(_ => { });
@@ -186,7 +188,10 @@ namespace DealOrNoDeal.ViewModels
 
         public void AcceptOffer(object _)
         {
-            if (CurrentGameState == GameState.MoneyOfferPending)
+            if (CurrentGameState == GameState.SwapBoxesOfferPending)
+            {
+                CurrentGameState = GameState.SwapBoxesOfferAccepted;
+            } else if (CurrentGameState == GameState.MoneyOfferPending)
             {
                 CurrentGameState = GameState.GameOver;
                 RevealAllBoxes();
