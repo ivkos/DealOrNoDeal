@@ -76,7 +76,7 @@ namespace DealOrNoDeal.ViewModels
             set
             {
                 remainingBoxesToOpen = value;
-                OnPropertyChanged("CurrentOfferText");
+                OnPropertyChanged("CurrentStateText");
             }
         }
 
@@ -89,7 +89,7 @@ namespace DealOrNoDeal.ViewModels
             {
                 currentGameState = value;
                 OnPropertyChanged("HasOffer");
-                OnPropertyChanged("CurrentOfferText");
+                OnPropertyChanged("CurrentStateText");
                 OnPropertyChanged("ClickCommand");
             }
         }

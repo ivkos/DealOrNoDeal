@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:DealOrNoDeal.ViewModels"
-        xmlns:controls="clr-namespace:DealOrNoDeal.Support.Controls"
+        xmlns:controls="clr-namespace:DealOrNoDeal.Views.Support.Controls"
         mc:Ignorable="d"
         Title="Сделка или не" ResizeMode="CanMinimize" Height="542.193" Width="931.096" d:DataContext="{d:DesignInstance vm:GameViewModel}">
 

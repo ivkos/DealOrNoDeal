@@ -58,7 +58,7 @@
     <Compile Include="Models\GridBox.cs" />
     <Compile Include="Support\Banker.cs" />
     <Compile Include="Support\Constants\BoxPrices.cs" />
-    <Compile Include="Support\Controls\GridItemsControl.cs" />
+    <Compile Include="Views\Support\Controls\GridItemsControl.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
     <Compile Include="Views\Support\Converters\BoxToContentConverter.cs" />
     <Compile Include="Views\Support\Converters\ValueToColorConverter.cs" />
