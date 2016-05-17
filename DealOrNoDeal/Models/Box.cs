@@ -7,20 +7,31 @@ namespace DealOrNoDeal.Models
 {
     public class Box : INotifyPropertyChanged
     {
-        private static int idCounter = 0;
+        private static int idCounter;
 
         #region Properties
         public int Id { get; private set; } = ++idCounter;
         public double Value { get; }
         public string ItemName { get; }
 
-        private bool isOpen = false;
+        private bool isOpen;
         public bool IsOpen
         {
             get { return isOpen; }
             set
             {
                 isOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool revealed;
+        public bool Revealed
+        {
+            get { return revealed; }
+            set
+            {
+                revealed = value;
                 OnPropertyChanged();
             }
         }
@@ -54,7 +65,7 @@ namespace DealOrNoDeal.Models
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
                 return false;
             return Equals((Box) obj);
         }

@@ -60,6 +60,8 @@
     <Compile Include="Support\Constants\BoxPrices.cs" />
     <Compile Include="Support\Controls\GridItemsControl.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
+    <Compile Include="Views\Support\Converters\BoxToContentConverter.cs" />
+    <Compile Include="Views\Support\Converters\ValueToColorConverter.cs" />
     <Page Include="Views\GameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -57,19 +57,31 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button x:Name="BoxButton"
-                                Content="{Binding Box.Id}" 
-                                Grid.Column="{Binding Column}"
+                        <Button Grid.Column="{Binding Column}"
                                 Grid.Row="{Binding Row}"
                                 Style="{StaticResource GridBoxStyle}"
                                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ClickCommand}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+                                CommandParameter="{Binding Box}">
+                            <Button.Content>
+                                <MultiBinding Converter="{StaticResource BoxToContentConverter}">
+                                    <Binding Path="Box"></Binding>
+                                    <Binding Path="Box.Revealed"></Binding>
+                                </MultiBinding>
+                            </Button.Content>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </controls:GridItemsControl>
 
             <Label Content="Вашата кутия:" HorizontalAlignment="Center" FontSize="14" FontFamily="Segoe UI Light" />
-            <Label x:Name="PlayerBox" Content="{Binding CurrentBox.Id}" Style="{StaticResource PlayerBoxStyle}"/>
+            <Label x:Name="PlayerBox" Style="{StaticResource PlayerBoxStyle}">
+                <Label.Content>
+                    <MultiBinding Converter="{StaticResource BoxToContentConverter}">
+                        <Binding Path="CurrentBox"></Binding>
+                        <Binding Path="CurrentBox.Revealed"></Binding>
+                    </MultiBinding>
+                </Label.Content>
+            </Label>
 
             <Label Style="{StaticResource OfferVisibility}" Content="Оферта на банката:" HorizontalAlignment="Center" FontSize="14" FontFamily="Segoe UI Light" Margin="0 25 0 0" />
             <Label Name="BankOffer" Content="{Binding CurrentOfferText}" IsEnabled="True" HorizontalAlignment="Center" FontSize="20" Background="#DB0000" Foreground="White" Padding="25 5 25 5" FontFamily="Segoe UI Light"/>
@@ -78,7 +90,7 @@
                 <Button Content="СДЕЛКА" Command="{Binding AcceptOfferCommand}" 
                         Style="{StaticResource DealButtons}"
                         Margin="0 0 15 0" Height="36" Width="76" Background="RoyalBlue" Foreground="White"/>
-                
+
                 <Button Content="НЕ" Command="{Binding DenyOfferCommand}"
                         Style="{StaticResource DealButtons}"
                         Height="36" Width="50" Background="DarkRed" Foreground="White"/>
