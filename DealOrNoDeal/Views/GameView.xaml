@@ -86,7 +86,7 @@
             </Label>
 
             <Label Style="{StaticResource OfferVisibility}" Content="Оферта на банката:" HorizontalAlignment="Center" FontSize="14" FontFamily="Segoe UI Light" Margin="0 25 0 0" />
-            <Label Name="BankOffer" Content="{Binding CurrentOfferText}" IsEnabled="True" HorizontalAlignment="Center" FontSize="20" Background="#DB0000" Foreground="White" Padding="25 5 25 5" FontFamily="Segoe UI Light"/>
+            <Label Name="BankOffer" Content="{Binding CurrentStateText}" IsEnabled="True" HorizontalAlignment="Center" FontSize="20" Background="#DB0000" Foreground="White" Padding="25 5 25 5" FontFamily="Segoe UI Light"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="21">
                 <Button Content="СДЕЛКА" Command="{Binding AcceptOfferCommand}" 

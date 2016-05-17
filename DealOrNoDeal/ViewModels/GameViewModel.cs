@@ -94,7 +94,7 @@ namespace DealOrNoDeal.ViewModels
             }
         }
 
-        public string CurrentOfferText
+        public string CurrentStateText
         {
             get
             {
