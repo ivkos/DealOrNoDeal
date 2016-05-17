@@ -152,7 +152,7 @@ namespace DealOrNoDeal.ViewModels
 
             new Thread(() =>
             {
-                Thread.Sleep(500);
+                Thread.Sleep(750);
 
                 box.IsOpen = true;
                 boxOpenInProgress = false;
