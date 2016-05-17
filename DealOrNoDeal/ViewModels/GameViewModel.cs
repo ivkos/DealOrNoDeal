@@ -36,6 +36,10 @@ namespace DealOrNoDeal.ViewModels
                 AllBoxes.AddRange(BluePrices);
                 AllBoxes.AddRange(RedPrices);
 
+                // Assign ids
+                int currentId = 0;
+                AllBoxes.OrderBy(_ => random.Next()).ToList().ForEach(b => b.Id = ++currentId);
+
                 // Pick a random box for the player
                 CurrentBox = AllBoxes[random.Next(AllBoxes.Count)];
 

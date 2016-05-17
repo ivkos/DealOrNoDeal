@@ -7,10 +7,8 @@ namespace DealOrNoDeal.Models
 {
     public class Box : INotifyPropertyChanged
     {
-        private static int idCounter;
-
         #region Properties
-        public int Id { get; private set; } = ++idCounter;
+        public int Id { get; set; }
         public double Value { get; }
         public string ItemName { get; }
 
